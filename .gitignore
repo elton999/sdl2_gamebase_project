@@ -1,0 +1,11 @@
+*.slo
+*.lo
+*.o
+*.obj
+
+*.exe
+*.out
+*.app
+
+main
+build/*.dll
