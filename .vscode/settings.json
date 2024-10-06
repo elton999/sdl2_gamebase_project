@@ -3,7 +3,9 @@
     "files.associations": {
         "ostream": "cpp",
         "cstddef": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "array": "cpp",
+        "functional": "cpp"
     },
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/src",
