@@ -18,7 +18,7 @@
                 "-lmingw32",
                 "-lSDL2main",
                 "-lSDL2",
-                "C:/Windows/System32/vulkan-1.dll",
+                "-lopengl32",
                 "-o",
                 "${workspaceFolder}\\build\\game.exe",
             ],

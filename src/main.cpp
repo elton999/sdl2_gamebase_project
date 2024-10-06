@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_vulkan.h>
-#include <vulkan/vulkan.h>
+#include <SDL2/SDL_opengl.h>
+#include <GL/gl.h>
 
 using namespace std;
 
@@ -9,7 +9,7 @@ const Uint32 fps = 60;
 const Uint32 frameDelay = 1000 / fps;
 
 SDL_Window *window = NULL;
-SDL_Renderer *renderer = NULL;
+SDL_GLContext renderer = NULL;
 
 bool InitWindow();
 bool Loop();
@@ -37,7 +37,6 @@ int main(int argc, char **args)
         Update();
         Render();
         ClearRender();
-        SDL_RenderPresent(renderer);
 
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)
@@ -52,28 +51,26 @@ int main(int argc, char **args)
 
 bool InitWindow()
 {
+
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         cout << "Error initializing SDL: " << SDL_GetError() << endl;
         return false;
     }
 
-    window = SDL_CreateWindow("window title", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 800, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_VULKAN);
+    window = SDL_CreateWindow("window title", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 800, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
     if (!window)
     {
         cout << "Error creating window: " << SDL_GetError() << endl;
         return false;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_GL_CreateContext(window);
     if (!renderer)
     {
         cout << "Error creating renderer: " << SDL_GetError() << endl;
         return false;
     }
-
-    uint32_t extension_count = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, nullptr);
 
     return true;
 }
@@ -99,13 +96,14 @@ void Render()
 
 void ClearRender()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 100, 100, 255);
-    SDL_RenderClear(renderer);
+    glViewport(0, 0, 800, 800);
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    SDL_GL_SwapWindow(window);
 }
 
 void KillWindow()
 {
-    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
