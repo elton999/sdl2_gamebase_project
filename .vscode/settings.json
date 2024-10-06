@@ -4,5 +4,9 @@
         "ostream": "cpp",
         "cstddef": "cpp",
         "iostream": "cpp"
-    }
+    },
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/src",
+        "${VULKAN_SDK}/Include"
+    ]
 }

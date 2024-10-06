@@ -1,5 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_vulkan.h>
+#include <vulkan/vulkan.h>
 
 using namespace std;
 
@@ -56,7 +58,7 @@ bool InitWindow()
         return false;
     }
 
-    window = SDL_CreateWindow("window title", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 800, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("window title", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 800, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_VULKAN);
     if (!window)
     {
         cout << "Error creating window: " << SDL_GetError() << endl;
@@ -69,6 +71,9 @@ bool InitWindow()
         cout << "Error creating renderer: " << SDL_GetError() << endl;
         return false;
     }
+
+    uint32_t extension_count = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, nullptr);
 
     return true;
 }
