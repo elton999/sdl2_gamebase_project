@@ -5,6 +5,7 @@
 void Mesh::LoadData(std::vector<glm::vec3> &vertices)
 {
     _mVertices = &vertices;
+    _mVertexCount = vertices.size();
     glGenVertexArrays(1, &mVAO);
     glGenBuffers(1, &mVBO);
     glBindVertexArray(mVAO);
@@ -20,6 +21,5 @@ void Mesh::LoadData(std::vector<glm::vec3> &vertices)
 
 void Mesh::Draw()
 {
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    // glDisableVertexAttribArray(0);
+    glDrawArrays(GL_TRIANGLES, 0, _mVertexCount);
 }

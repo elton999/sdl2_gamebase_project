@@ -11,6 +11,7 @@ class Mesh
 private:
     unsigned int mVBO, mVAO;
     std::vector<glm::vec3> *_mVertices;
+    unsigned int _mVertexCount;
 
 public:
     void LoadData(std::vector<glm::vec3> &vertices);
