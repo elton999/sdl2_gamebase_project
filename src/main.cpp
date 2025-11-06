@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include "UmbrellaToolsKit/Core/SquareMesh.h"
 
 using namespace std;
 
@@ -27,20 +28,12 @@ int main(int argc, char **args)
         return 1;
     }
 
-    std::array<glm::vec3, 3> Triangle = {
-        glm::vec3{-1.0f, -1.0f, 0.0f},
-        glm::vec3{1.0f, -1.0f, 0.0f},
-        glm::vec3{0.0f, 1.0f, 0.0f},
-    };
     GLuint VertexBuffer;
 
-    glGenBuffers(1, &VertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Triangle), Triangle.data(), GL_STATIC_DRAW);
-
-    bool running = true;
     Uint32 frameStart;
     int frameTime;
+
+    SquareMesh squareMesh = {};
 
     while (!Loop())
     {
@@ -48,13 +41,8 @@ int main(int argc, char **args)
 
         ClearRender();
 
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
-        glVertexAttribPointer(0, Triangle.size(), GL_FLOAT, GL_FALSE, 0, nullptr);
-        glDrawArrays(GL_TRIANGLES, 0, Triangle.size());
-        glDisableVertexAttribArray(0);
-
         Update();
+        squareMesh.Draw();
         Render();
 
         frameTime = SDL_GetTicks() - frameStart;
