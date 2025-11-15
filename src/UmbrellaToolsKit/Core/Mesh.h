@@ -14,6 +14,7 @@ private:
     std::vector<glm::vec3> *_mVertices;
     unsigned int _mVertexCount;
     Shader *_mShader;
+    bool _mHasShader = false;
 
 public:
     void SetShader(Shader &shader);

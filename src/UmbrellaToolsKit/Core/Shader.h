@@ -10,12 +10,6 @@
 
 class Shader
 {
-private:
-    std::string *_vertexCode;
-    std::string *_fragmentCode;
-
-    void checkCompileErrors(unsigned int shader, std::string type);
-
 public:
     unsigned int ID;
 
@@ -26,6 +20,9 @@ public:
     void SetBool(const std::string &name, bool value) const;
     void SetInt(const std::string &name, int value) const;
     void SetFloat(const std::string &name, float value) const;
+
+private:
+    void checkCompileErrors(unsigned int shader, std::string type);
 };
 
 #endif // _SHADER_H_

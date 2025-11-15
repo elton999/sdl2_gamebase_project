@@ -22,6 +22,7 @@ void Mesh::LoadData(std::vector<glm::vec3> &vertices)
 void Mesh::SetShader(Shader &shader)
 {
     _mShader = &shader;
+    _mHasShader = true;
 }
 
 void *Mesh::GetShader()
@@ -31,9 +32,12 @@ void *Mesh::GetShader()
 
 void Mesh::Draw()
 {
-    if (_mShader)
+    if (!_mHasShader)
     {
-        _mShader->Use();
+        glDrawArrays(GL_TRIANGLES, 0, _mVertexCount);
+        return;
     }
+
+    _mShader->Use();
     glDrawArrays(GL_TRIANGLES, 0, _mVertexCount);
 }
