@@ -19,7 +19,25 @@ void Mesh::LoadData(std::vector<glm::vec3> &vertices)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void Mesh::SetShader(Shader &shader)
+{
+    _mShader = &shader;
+    _mHasShader = true;
+}
+
+void *Mesh::GetShader()
+{
+    return _mShader;
+}
+
 void Mesh::Draw()
 {
+    if (!_mHasShader)
+    {
+        glDrawArrays(GL_TRIANGLES, 0, _mVertexCount);
+        return;
+    }
+
+    _mShader->Use();
     glDrawArrays(GL_TRIANGLES, 0, _mVertexCount);
 }
