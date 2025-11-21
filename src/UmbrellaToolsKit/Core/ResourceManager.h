@@ -7,7 +7,7 @@
 #include <map>
 #include <string>
 
-#include "UmbrellaToolsKit/Core/Texture2D.h"
+#include "Texture2D.h"
 
 class ResourceManager
 {
