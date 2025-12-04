@@ -26,7 +26,6 @@ ifeq ($(PLATFORM),windows)
     INCLUDE = -I lib
     LIBS = -L bin -lmingw32 -lSDL2main -lSDL2 -lglew32 -lglu32 -lopengl32
 
-    # Default MSYS2 UCRT64 path
     DLL_PATH = C:/msys64/ucrt64/bin
     DLLS = SDL2.dll glew32.dll libgcc_s_seh-1.dll libstdc++-6.dll libwinpthread-1.dll
 
@@ -44,8 +43,21 @@ ifeq ($(PLATFORM),windows)
 else
     INCLUDE = $(shell pkg-config --cflags sdl2 glew)
     LIBS = $(shell pkg-config --libs sdl2 glew)
-    COPY_DLLS_CMD = @true  # No DLL copying needed on Linux
+    COPY_DLLS_CMD = @true
 endif
+
+# ==============================
+# 📁 Copy content folder
+# ==============================
+COPY_CONTENT_CMD = \
+    @echo "📦 Copying content/ ..."; \
+    if [ -d content ]; then \
+        rm -rf build/content; \
+        cp -r content build/; \
+        echo "✅ content/ copied"; \
+    else \
+        echo "⚠️  No content/ folder to copy"; \
+    fi
 
 # ==============================
 # 🧱 Main build rules
@@ -55,10 +67,12 @@ all: debug
 debug: CXXFLAGS += $(CXXFLAGS_DEBUG)
 debug: build_dirs $(OUT)
 	$(COPY_DLLS_CMD)
+	$(COPY_CONTENT_CMD)       # >>>
 
 release: CXXFLAGS += $(CXXFLAGS_RELEASE)
 release: build_dirs $(OUT)
 	$(COPY_DLLS_CMD)
+	$(COPY_CONTENT_CMD)       # >>>
 
 # Link the final executable
 $(OUT): $(OBJ)
