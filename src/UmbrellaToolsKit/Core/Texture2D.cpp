@@ -2,15 +2,14 @@
 #include <iostream>
 #include <SDL2/SDL_opengl.h>
 
-Texture2D::Texture2D()
-    : Internal_Format(GL_RGB), Image_Format(GL_RGB), Wrap_S(GL_REPEAT), Wrap_T(GL_REPEAT), Filter_Min(GL_LINEAR), Filter_Max(GL_LINEAR)
+Texture2D::Texture2D() : Internal_Format(GL_RGB), Image_Format(GL_RGB), Wrap_S(GL_REPEAT), Wrap_T(GL_REPEAT), Filter_Min(GL_LINEAR), Filter_Max(GL_LINEAR)
 {
     glGenTextures(1, &this->ID);
 }
 
 int Texture2D::GetHight()
 {
-    return this->_mHight;
+    return this->_mHeight;
 }
 
 int Texture2D::GetWidth()
@@ -21,7 +20,7 @@ int Texture2D::GetWidth()
 void Texture2D::Generate(unsigned int width, unsigned height, unsigned char *data)
 {
     this->_mWidth = width;
-    this->_mHight = height;
+    this->_mHeight = height;
 
     glBindTexture(GL_TEXTURE_2D, this->ID);
     glTexImage2D(GL_TEXTURE_2D, 0, this->Internal_Format, width, height, 0, this->Image_Format, GL_UNSIGNED_BYTE, data);

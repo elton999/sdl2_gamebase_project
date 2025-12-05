@@ -4,9 +4,10 @@
 class Texture2D
 {
 private:
-    unsigned int _mHight, _mWidth;
+    unsigned int _mHeight, _mWidth;
 
 public:
+    Texture2D();
     unsigned int ID;
     unsigned int Internal_Format;
     unsigned int Image_Format;
