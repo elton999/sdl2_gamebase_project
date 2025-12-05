@@ -1,5 +1,5 @@
 #ifndef _RESOURCE_MANAGER_H_
-#define _RESOURCE_MANGER_H_
+#define _RESOURCE_MANAGER_H_
 
 #include <iostream>
 #include <sstream>
@@ -18,4 +18,4 @@ public:
     static Texture2D *LoadTexture2D(const char filePath);
 };
 
-#endif //_RESOURCE_MANGER_H_
+#endif //_RESOURCE_MANAGER_H_
