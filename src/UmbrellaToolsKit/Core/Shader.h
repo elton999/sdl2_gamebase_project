@@ -2,6 +2,7 @@
 #define _SHADER_H_
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 
 #include <string>
 #include <fstream>
@@ -17,9 +18,12 @@ public:
 
     void Use();
 
-    void SetBool(const std::string &name, bool value) const;
-    void SetInt(const std::string &name, int value) const;
-    void SetFloat(const std::string &name, float value) const;
+    void SetBool(const std::string &name, GLboolean value) const;
+    void SetInt(const std::string &name, GLint value) const;
+    void SetFloat(const std::string &name, GLfloat value) const;
+    void SetVec3(const std::string &name, const glm::vec3 &value) const;
+    void SetVec2(const std::string &name, const glm::vec2 &value) const;
+    void SetMatrix4(const std::string &name, const glm::mat4 value) const;
 
 private:
     void checkCompileErrors(unsigned int shader, std::string type);
