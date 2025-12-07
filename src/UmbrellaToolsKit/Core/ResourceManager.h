@@ -15,7 +15,7 @@ private:
     static std::map<std::string, Texture2D *> _mTextures2D;
 
 public:
-    static Texture2D *LoadTexture2D(const char filePath);
+    static Texture2D *LoadTexture2D(const char *filePath);
 };
 
 #endif //_RESOURCE_MANAGER_H_
