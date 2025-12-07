@@ -10,17 +10,23 @@
 class Mesh
 {
 private:
-    unsigned int mVBO, mVAO;
     std::vector<glm::vec3> *_mVertices;
-    unsigned int _mVertexCount;
+    std::vector<glm::vec3> *_mVerticesColors;
+    std::vector<glm::vec2> *_mTexCoords;
+
     Shader *_mShader;
     bool _mHasShader = false;
 
+protected:
+    unsigned int mVBO, mVAO;
+    unsigned int _mVertexCount;
+
 public:
     void SetShader(Shader &shader);
-    void *GetShader();
+    Shader *GetShader();
 
     void LoadData(std::vector<glm::vec3> &vertices);
+    void LoadData(std::vector<glm::vec3> &vertices, std::vector<glm::vec3> &colors, std::vector<glm::vec2> &texCoords);
     void Draw();
 };
 
