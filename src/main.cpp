@@ -1,10 +1,12 @@
 #include <iostream>
 #include <array>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include "UmbrellaToolsKit/Core/SquareMesh.h"
+#include "UmbrellaToolsKit/Core/Sprite.h"
+#include "UmbrellaToolsKit/Core/ResourceManager.h"
 
 using namespace std;
 
@@ -29,27 +31,29 @@ int main(int argc, char **args)
     }
 
     GLuint VertexBuffer;
-
     Uint32 frameStart;
     int frameTime;
 
-    SquareMesh squareMesh = {};
-    Shader shader(
-        "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-        "}\0",
+    Sprite squareMesh = {};
+    Texture2D *texture2D = ResourceManager::LoadTexture2D("content/texture.png");
 
-        "#version 330 core\n"
-        "out vec4 FragColor;\n"
-        "void main()\n"
-        "{\n"
-        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "}\n\0");
+    if (!texture2D)
+    {
+        cout << "Failed to load texture 'content/texture.png'" << endl;
+    }
 
-    squareMesh.SetShader(shader);
+    // Enable alpha blending for textures with transparency
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Set an orthographic projection and configure shader sampler
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 800.0f, 0.0f, -1.0f, 1.0f);
+    if (squareMesh.GetShader())
+    {
+        squareMesh.GetShader()->Use();
+        squareMesh.GetShader()->SetInt("image", 0);
+        squareMesh.GetShader()->SetMatrix4("projection", projection);
+    }
 
     while (!Loop())
     {
@@ -58,7 +62,7 @@ int main(int argc, char **args)
         ClearRender();
 
         Update();
-        squareMesh.Draw();
+        squareMesh.DrawSprite(*texture2D, glm::vec2(0.0f, 0.0f), glm::vec2((float)texture2D->GetWidth(), (float)texture2D->GetHight()), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
         Render();
 
         frameTime = SDL_GetTicks() - frameStart;
