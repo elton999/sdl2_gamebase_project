@@ -25,7 +25,7 @@ void Mesh::SetShader(Shader &shader)
     _mHasShader = true;
 }
 
-void *Mesh::GetShader()
+Shader *Mesh::GetShader()
 {
     return _mShader;
 }

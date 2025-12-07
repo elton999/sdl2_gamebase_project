@@ -18,7 +18,7 @@ private:
 
 public:
     void SetShader(Shader &shader);
-    void *GetShader();
+    Shader *GetShader();
 
     void LoadData(std::vector<glm::vec3> &vertices);
     void Draw();
