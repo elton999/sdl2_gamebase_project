@@ -24,3 +24,9 @@ void Sprite::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec2 size, 
     glDrawArrays(GL_TRIANGLES, 0, _mVertexCount);
     glBindVertexArray(0);
 }
+
+void Sprite::DrawSprite(Texture2D &texture, glm::vec2 position, float scale, float rotate, glm::vec3 color)
+{
+    glm::vec2 size = glm::vec2((float)texture.GetWidth(), (float)texture.GetHight()) * scale;
+    this->DrawSprite(texture, position, size, rotate, color);
+}
