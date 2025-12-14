@@ -82,7 +82,8 @@ public:
         this->SetShader(*shader);
     }
 
-    void DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec4 coords, float rotate, glm::vec3 color);
+    void DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec4 coords, glm::vec2 scale, float rotate, glm::vec3 color);
+    void DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec4 coords, float scale, float rotate, glm::vec3 color);
     void DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color);
     void DrawSprite(Texture2D &texture, glm::vec2 position, float scale, float rotate, glm::vec3 color);
     void DrawSprite(Texture2D &texture, glm::vec2 position);

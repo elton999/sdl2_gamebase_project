@@ -2,19 +2,22 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-void Sprite::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec4 coords, float rotate, glm::vec3 color)
+void Sprite::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec4 coords, glm::vec2 scale, float rotate, glm::vec3 color)
 {
     this->GetShader()->Use();
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));
 
-    glm::vec2 size = glm::vec2(coords.z - coords.x, coords.w - coords.y);
+    // 'scale' here is the final desired size in pixels (width, height).
+    glm::vec2 baseSize = glm::vec2(coords.z, coords.w);
+    glm::vec2 finalSize = baseSize * scale;
 
-    model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+    // Center/rotate around the middle of the final size (not the base tex region)
+    model = glm::translate(model, glm::vec3(0.5f * finalSize.x, 0.5f * finalSize.y, 0.0f));
     model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+    model = glm::translate(model, glm::vec3(-0.5f * finalSize.x, -0.5f * finalSize.y, 0.0f));
 
-    model = glm::scale(model, glm::vec3(size, 1.0f));
+    model = glm::scale(model, glm::vec3(finalSize, 1.0f));
 
     this->GetShader()->SetMatrix4("model", model);
     this->GetShader()->SetVec3("spriteColor", color);
@@ -33,9 +36,17 @@ void Sprite::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec4 coords
     glBindVertexArray(0);
 }
 
+void Sprite::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec4 coords, float scale, float rotate, glm::vec3 color)
+{
+    glm::vec2 finalSize = glm::vec2(scale, scale);
+    this->DrawSprite(texture, position, coords, finalSize, rotate, color);
+}
+
 void Sprite::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color)
 {
-    this->DrawSprite(texture, position, glm::vec4(0.0f, 0.0f, size.x, size.y), rotate, color);
+    float scale = 1.0f;
+    glm::vec4 coords = glm::vec4(0.0f, 0.0f, size.x, size.y);
+    this->DrawSprite(texture, position, coords, scale, rotate, color);
 }
 
 void Sprite::DrawSprite(Texture2D &texture, glm::vec2 position, float scale, float rotate, glm::vec3 color)

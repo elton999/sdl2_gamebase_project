@@ -63,7 +63,7 @@ int main(int argc, char **args)
 
         Update();
         squareMesh.DrawSprite(*texture2D, glm::vec2(0.0f, 0.0f));
-        squareMesh.DrawSprite(*texture2D, glm::vec2((float)texture2D->GetWidth(), (float)texture2D->GetHight()), glm::vec4(0.0f, 0.0f, ((float)texture2D->GetWidth()), ((float)texture2D->GetHight()) / 2.0f), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+        squareMesh.DrawSprite(*texture2D, glm::vec2((float)texture2D->GetWidth(), (float)texture2D->GetHight()), glm::vec4(0.0f, 0.0f, ((float)texture2D->GetWidth()), ((float)texture2D->GetHight()) / 2.0f), glm::vec2(2.0f, 2.0f), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
         Render();
 
         frameTime = SDL_GetTicks() - frameStart;
