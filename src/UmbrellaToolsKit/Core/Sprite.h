@@ -64,17 +64,28 @@ public:
             "out vec4 color;\n"
             "uniform sampler2D image;\n"
             "uniform vec3 spriteColor;\n"
+            "// texOffset: (offsetX, offsetY) in normalized coords\n"
+            "// texScale:  (scaleX, scaleY) in normalized coords\n"
+            "uniform vec2 texOffset;\n"
+            "uniform vec2 texScale;\n"
             "void main()\n"
             "{\n"
-            "    color = vec4(spriteColor, 1.0) * texture(image, TexCoords);\n"
+            "    vec2 uv = texOffset + texScale * TexCoords;\n"
+            "    color = vec4(spriteColor, 1.0) * texture(image, uv);\n"
             "}\n";
 
         Shader *shader = new Shader(vertexCode, fragmentCode);
+        // default texture region: full texture
+        shader->Use();
+        shader->SetVec2("texOffset", glm::vec2(0.0f, 0.0f));
+        shader->SetVec2("texScale", glm::vec2(1.0f, 1.0f));
         this->SetShader(*shader);
     }
 
+    void DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec4 coords, float rotate, glm::vec3 color);
     void DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color);
     void DrawSprite(Texture2D &texture, glm::vec2 position, float scale, float rotate, glm::vec3 color);
+    void DrawSprite(Texture2D &texture, glm::vec2 position);
 };
 
 #endif // _SPRITE_H_
